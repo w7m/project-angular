@@ -1,15 +1,15 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li routerLinkActive="active" class="nav-item"><a class="nav-link" routerLink="auth">Authentification</a></li>
+      <li routerLinkActive="active" class="nav-item"><a class="nav-link" routerLink="appareilss">Appareils</a></li>
+    </ul>
+  </div>
+</nav>
 <div class="container">
   <div class="row">
-    <div class="col-xs-12">
-      <h2>Mes appareils   <p>Mis à jour : {{ lastUpdate| async  | date: 'medium' }}</p></h2>
-      <ul class="list-group">
-        <app-appareil  *ngFor="let appareil of appareils"
-                       [appareilName]="appareil.name"
-                       [appareilStatus]="appareil.status"></app-appareil>
-      </ul>
-      <button class="btn btn-success"
-              [disabled]="!isAuth"
-              (click)="onAllumer()">Tout allumer</button>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>
+
