@@ -1,39 +1,30 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppareilService} from './services/appareil.service';
+import {Observable, interval, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   appareils: any[];
-  lastUpdate = new Promise((resolve, reject) => {
-    const date = new Date();
-    setInterval(
-      () => {
-        resolve(date);
-      }, 2000
-    );
-  });
-
+  secondes: number;
+  counterSubscription: Subscription;
 
   constructor(private  appareilService: AppareilService) {
   }
 
   ngOnInit() {
-    this.appareils = this.appareilService.appareils;
+    const counter = interval(1000);
+    this.counterSubscription = counter.subscribe(
+      (value: number ) => {
+        this.secondes = value;
+      }
+    );
+  }
+  ngOnDestroy(): void {
+    this.counterSubscription.unsubscribe();
   }
 
-  onAllumer() {
-    this.appareilService.switchOnAll();
-  }
-
-  onEteindre() {
-    if ((confirm('Etes-vous sur de vouloir éteindre tous vos appareils'))) {
-      this.appareilService.switchOffAll();
-    } else {
-      return null;
-    }
-  }
 }
